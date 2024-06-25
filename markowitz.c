@@ -1,7 +1,6 @@
 #include "markowitz.h"
 
 
-
 // 计算收益率
 double **calculate_returns(double **prices, int rows, int cols) {
     double **returns = (double **)malloc(rows - 1 * sizeof(double *));
@@ -15,7 +14,6 @@ double **calculate_returns(double **prices, int rows, int cols) {
     }
     return returns;
 }
-
 
 // 计算平均收益率
 double *calculate_mean_returns(double **returns, int rows, int cols) {
@@ -31,7 +29,6 @@ double *calculate_mean_returns(double **returns, int rows, int cols) {
     return mean_returns;
 }
 
-
 // // 计算波动率
 // double *calculate_volatility(double **returns, int rows, int cols) {
 //     double *volatility = (double *)malloc(cols * sizeof(double));
@@ -44,7 +41,6 @@ double *calculate_mean_returns(double **returns, int rows, int cols) {
 //     }
 //     return volatility;
 // }
-
 
 // 计算协方差矩阵
 double **calculate_covariance_matrix(double **returns, int rows, int cols) {
@@ -71,14 +67,13 @@ double **calculate_covariance_matrix(double **returns, int rows, int cols) {
 }
 
 // 计算组合年化收益
-double portfolio_annulised_return(float *weights, double *mean_returns, int cols) {
+double portfolio_annulised_return(double *weights, double *mean_returns, int cols) {
     double ann_ret = 0;
     for (int i = 0; i < cols; i++) {
         ann_ret += weights[i] * mean_returns[i];
     }
     return ann_ret*252;    // 一年差不多252个交易日
 }
-
 
 // 函数定义：二维数组点乘
 double **dot_product(double **matrix1, double **matrix2, int rows1, int cols1, int cols2) {
@@ -97,9 +92,8 @@ double **dot_product(double **matrix1, double **matrix2, int rows1, int cols1, i
     return result;
 }
 
-
 // 计算组合年化波动率
-double portfolio_annulised_std(float *weights, double **cov_matrix, int cols) {
+double portfolio_annulised_std(double *weights, double **cov_matrix, int cols) {
     double ann_std = 0;
     double *covdtw = (double *)malloc(cols * sizeof(double));
     // w.T.dot(cov.dot(w))
@@ -113,7 +107,6 @@ double portfolio_annulised_std(float *weights, double **cov_matrix, int cols) {
     ann_std *= 252;  // 一年差不多252个交易日. 
     return sqrt(ann_std);  // var to std.
 }
-
 
 // 简单的Markowitz优化 (此处为简单示例，不考虑约束条件等复杂情况)
 double *markowitz_optimize(double **cov_matrix, double *returns, int n) {
