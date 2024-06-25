@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     // 输出结果
     printf("Mean Returns:\n");
     for (int i = 0; i < csv_data->cols; i++) {
-        printf("%s: %.6f\n", csv_data->colnames[i + 1], mean_returns[i]);
+        printf("%s: %f\n", csv_data->colnames[i + 1], mean_returns[i]);
     }
 
     // printf("\nVolatility:\n");
@@ -46,22 +46,22 @@ int main(int argc, char *argv[]) {
     printf("\nCovariance Matrix:\n");
     for (int i = 0; i < csv_data->cols; i++) {
         for (int j = 0; j < csv_data->cols; j++) {
-            printf("%.4f ", cov_matrix[i][j]);
+            printf("%f ", cov_matrix[i][j]);
         }
         printf("\n");
     }
 
     printf("\nPortfolio Weights:\n");
     for (int i = 0; i < csv_data->cols; i++) {
-        printf("%s: %.4f\n", csv_data->colnames[i + 1], weights[i]);
+        printf("  %s: %f\n", csv_data->colnames[i + 1], weights[i]);
     }
 
-    printf("\nPortfolio Annulized Performace:\n Return: %f\n, Volatility: %f\n", ann_ret, ann_std);
+    printf("\nPortfolio Annulized Performace:\n  Return: %f\n  Volatility: %f\n", ann_ret, ann_std);
 
     // 释放内存
     free(mean_returns);
     // free(volatility);
-    for (int i = 0; i < csv_data->rows; i++) {
+    for (int i = 0; i < csv_data->cols; i++) {
         free(cov_matrix[i]);
     }
     for (int i = 0; i < csv_data->rows - 1; i++) {
