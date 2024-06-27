@@ -38,13 +38,6 @@ int main(int argc, char *argv[]) {
     double **result = monte_carlo(num_simulations, mean_returns, cov_matrix, csv_data->cols);
 
     // 输出结果
-    for (int i = 0; i < num_simulations; i++) {
-        for (int j = 0; j < NUM_COLS; j++) {
-            printf("%f, ", result[i][j]);
-        }
-        printf("\n");
-    }
-
     // printf("Mean Returns:\n");
     // for (int i = 0; i < csv_data->cols; i++) {
     //     printf("%s: %f\n", csv_data->colnames[i + 1], mean_returns[i]);
