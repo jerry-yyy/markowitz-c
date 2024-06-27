@@ -19,13 +19,13 @@ double **monte_carlo(int num_portfolios, double *mean_returns, double **cov_matr
         // 生成随机weights并归一化。
         double sum = 0.0;
         for (int j = 0; j < num_assets; j++) {
-            weights[i] = (double) rand() / RAND_MAX;
-            sum += weights[i];
+            weights[j] = (double) rand() / RAND_MAX;
+            sum += weights[j];
         }
         printf("Weights: ");
         for (int j = 0; j < num_assets; j++) {
-            weights[i] /= sum;
-            printf("%f ", weights[i]);
+            weights[j] /= sum;
+            printf("%f ", weights[j]);
         }
         printf("\n");
         
