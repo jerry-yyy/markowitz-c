@@ -3,13 +3,13 @@
 
 // 计算收益率
 double **calculate_returns(double **prices, int rows, int cols) {
-    double **returns = (double **)malloc(rows - 1 * sizeof(double *));
+    double **returns = (double **)malloc((rows - 1) * sizeof(double *));
     for (int i = 0; i < rows - 1; i++) {
         returns[i] = (double *)malloc(cols * sizeof(double));
     }
     for (int j = 0; j < cols; j++) {
         for (int i = 1; i < rows; i++) {
-            returns[i-1][j] += (prices[i][j] - prices[i - 1][j]) / prices[i - 1][j];
+            returns[i-1][j] = (prices[i][j] - prices[i - 1][j]) / prices[i - 1][j];
         }
     }
     return returns;

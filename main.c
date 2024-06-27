@@ -84,5 +84,10 @@ int main(int argc, char *argv[]) {
     // free(weights);
     free_csv_data(csv_data);
 
+    for (int i = 0; i < num_simulations; i++) {
+        free(result[i]);
+    }
+    free(result);
+
     return 0;
 }

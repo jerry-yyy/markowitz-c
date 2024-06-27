@@ -6,7 +6,6 @@ double **monte_carlo(int num_portfolios, double *mean_returns, double **cov_matr
     double **result = (double **)calloc(num_portfolios, sizeof(double *) * NUM_COLS);
 
     double risk_free_rate = 0.0;
-    double sharp_ritio = 0.0;
 
     srand((unsigned int)time(NULL));
 
