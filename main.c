@@ -18,65 +18,44 @@ int main(int argc, char *argv[]) {
 
     // 计算平均收益率
     double *mean_returns = calculate_mean_returns(returns, csv_data->rows, csv_data->cols);
-    
-    // 计算波动率
-    // double *volatility = calculate_volatility(returns, csv_data->rows, csv_data->cols);
 
     // 计算协方差矩阵
     double **cov_matrix = calculate_covariance_matrix(returns, csv_data->rows, csv_data->cols);
 
-    // j计算组合年化收益
-    // double ann_ret = portfolio_annulised_return(weights, mean_returns, csv_data->cols);
-
-    // 计算组合年化波动率
-    // double ann_std = portfolio_annulised_std(weights, cov_matrix, csv_data->cols);
-
-    // 进行Markowitz优化
-    // double *weights = markowitz_optimize(cov_matrix, returns, csv_data->cols);
-
     // 基于Monte Carlo 的Markowitz优化
     double **result = monte_carlo(num_simulations, mean_returns, cov_matrix, csv_data->cols);
 
-    // 输出结果
-    // printf("Mean Returns:\n");
-    // for (int i = 0; i < csv_data->cols; i++) {
-    //     printf("%s: %f\n", csv_data->colnames[i + 1], mean_returns[i]);
-    // }
-
-    // printf("\nVolatility:\n");
-    // for (int i = 0; i < csv_data->cols; i++) {
-    //     printf("%s: %.6f\n", csv_data->colnames[i + 1], volatility[i]);
-    // }
-
-    // printf("\nCovariance Matrix:\n");
-    // for (int i = 0; i < csv_data->cols; i++) {
-    //     for (int j = 0; j < csv_data->cols; j++) {
-    //         printf("%f ", cov_matrix[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-
-    // printf("\nPortfolio Weights:\n");
-    // for (int i = 0; i < csv_data->cols; i++) {
-    //     printf("  %s: %f\n", csv_data->colnames[i + 1], weights[i]);
-    // }
-
-    // printf("\nPortfolio Annulized Performace:\n  Return: %f\n  Volatility: %f\n", ann_ret, ann_std);
+    // show result
+    // print title
+    for (int i = 0; i < csv_data->cols; i++) {
+        printf("%s, ", csv_data->colnames[i+1]);  // colname[0]: Date, colname[1:cols+1]: AAPL, AMZN, ...
+    }
+    printf("return, volatility, sharp ratio, \n");
+    // print data
+    for (int i = 0; i < num_simulations; i++) {
+        for (int j = 0; j < csv_data->cols + NUM_COLS; j++) {
+            printf("%f, ", result[i][j]);
+        }
+        printf("\n");
+    }
 
     // 释放内存
+    // *mean_returns
     free(mean_returns);
-    // free(volatility);
+    // **cov_matrix
     for (int i = 0; i < csv_data->cols; i++) {
         free(cov_matrix[i]);
     }
+    free(cov_matrix);
+    // **returns
     for (int i = 0; i < csv_data->rows - 1; i++) {
         free(returns[i]);
     }
-    free(cov_matrix);
     free(returns);
-    // free(weights);
+    // CSVData
     free_csv_data(csv_data);
 
+    // **result
     for (int i = 0; i < num_simulations; i++) {
         free(result[i]);
     }

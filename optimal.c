@@ -5,10 +5,11 @@
 double **monte_carlo(int num_portfolios, double *mean_returns, double **cov_matrix, int num_assets) {
     double **result = (double **)malloc(num_portfolios * sizeof(double *));
     for (int i = 0; i < num_portfolios; i++) {
-        result[i] = (double *)calloc(NUM_COLS, sizeof(double));
+        result[i] = (double *)calloc(num_assets + NUM_COLS, sizeof(double));
     }
-
-    double risk_free_rate = 0.0;
+    // hard code. 07.2024, 4.36%. 
+    // https://www.macrotrends.net/2016/10-year-treasury-bond-rate-yield-chart
+    double risk_free_rate = 0.0436;
 
     srand((unsigned int)time(NULL));
 
@@ -22,20 +23,17 @@ double **monte_carlo(int num_portfolios, double *mean_returns, double **cov_matr
             weights[j] = (double) rand() / RAND_MAX;
             sum += weights[j];
         }
-        printf("Weights: ");
         for (int j = 0; j < num_assets; j++) {
             weights[j] /= sum;
-            printf("%f ", weights[j]);
+            result[i][j] = weights[j];
         }
-        printf("\n");
         
         // return
-        result[i][0] = portfolio_annulised_return(weights, mean_returns, num_assets);
+        result[i][num_assets] = portfolio_annulised_return(weights, mean_returns, num_assets);
         // std
-        result[i][1] = portfolio_annulised_std(weights, cov_matrix, num_assets);
+        result[i][num_assets + 1] = portfolio_annulised_std(weights, cov_matrix, num_assets);
         // sharp ratio
-        result[i][2] = (result[i][0] - risk_free_rate) / result[i][1];
-        printf("ret: %f, std: %f, sharp ratio: %f\n", result[i][0], result[i][1], result[i][2]);
+        result[i][num_assets + 2] = (result[i][num_assets] - risk_free_rate) / result[i][num_assets + 1];
 
     }
 
